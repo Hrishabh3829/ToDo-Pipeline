@@ -31,6 +31,7 @@ const data = {
     name: "shadcn",
     email: "m@example.com",
     avatar: null,
+    initials: "CN", // Matches what's shown in the screenshot
   },
   navMain: [
     {
@@ -185,7 +186,7 @@ export function AppSidebar({
         <NavProjects projects={data.projects} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="border-t border-gray-800 pt-2">
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>

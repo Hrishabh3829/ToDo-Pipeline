@@ -8,9 +8,11 @@ import {
 import { TaskCard } from "@/components/task-card";
 import { TaskForm } from "@/components/task-form";
 import { TaskSummaryCard } from "@/components/task-summary-card";
+import { DeleteConfirmDialog } from "@/components/delete-confirm-dialog";
 import { Button } from "@/components/ui/button";
 import { Plus, CheckCircle2, Clock, AlertCircle } from "lucide-react";
-import { getAllTasks, addTask, updateTask, deleteTask } from "@/lib/tasks";
+import { getAllTasks, addTask, updateTask, deleteTask, getTaskById } from "@/lib/tasks";
+import { useAlert } from "@/components/alert-provider";
 
 export const iframeHeight = "800px";
 
@@ -20,6 +22,9 @@ export default function Page() {
   const [tasks, setTasks] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     // Load tasks when component mounts
@@ -27,20 +32,43 @@ export default function Page() {
   }, []);
 
   const handleAddTask = (taskData) => {
-    const newTask = addTask(taskData);
-    setTasks(getAllTasks());
+    try {
+      const newTask = addTask(taskData);
+      setTasks(getAllTasks());
+      showAlert('success', `Task "${taskData.title}" has been created successfully`);
+    } catch (error) {
+      showAlert('error', `Failed to create task: ${error.message || 'Unknown error'}`);
+    }
   };
 
   const handleUpdateTask = (taskData, taskId) => {
-    updateTask(taskId, taskData);
-    setTasks(getAllTasks());
-    setEditingTask(null);
+    try {
+      updateTask(taskId, taskData);
+      setTasks(getAllTasks());
+      setEditingTask(null);
+      showAlert('success', `Task "${taskData.title}" has been updated successfully`);
+    } catch (error) {
+      showAlert('error', `Failed to update task: ${error.message || 'Unknown error'}`);
+    }
   };
 
   const handleDeleteTask = (taskId) => {
-    if (window.confirm("Are you sure you want to delete this task?")) {
-      deleteTask(taskId);
-      setTasks(getAllTasks());
+    const task = getTaskById(taskId);
+    setTaskToDelete(task);
+    setDeleteDialogOpen(true);
+  };
+  
+  const confirmDeleteTask = () => {
+    if (taskToDelete) {
+      try {
+        const taskTitle = taskToDelete.title || 'Unknown';
+        deleteTask(taskToDelete.id);
+        setTasks(getAllTasks());
+        showAlert('info', `Task "${taskTitle}" has been deleted`);
+      } catch (error) {
+        showAlert('error', `Failed to delete task: ${error.message || 'Unknown error'}`);
+      }
+      setTaskToDelete(null);
     }
   };
 
@@ -76,11 +104,12 @@ export default function Page() {
                 </Button>
               </div>
 
-              <div className="grid auto-rows-min gap-6 md:grid-cols-3">
+              <div className="grid auto-rows-min gap-6 md:grid-cols-4">
                 <TaskSummaryCard 
                   title="Total Tasks" 
                   value={totalTasks} 
-                  icon={<Clock className="h-5 w-5" />} 
+                  icon={<Clock className="h-5 w-5 text-blue-500" />} 
+                  className="text-blue-500" 
                 />
                 <TaskSummaryCard 
                   title="Completed" 
@@ -93,6 +122,12 @@ export default function Page() {
                   value={inProgressTasks} 
                   icon={<Clock className="h-5 w-5 text-orange-500" />} 
                   className="text-orange-500"
+                />
+                <TaskSummaryCard 
+                  title="Pending" 
+                  value={pendingTasks} 
+                  icon={<AlertCircle className="h-5 w-5 text-gray-400" />} 
+                  className="text-gray-400"
                 />
               </div>
 
@@ -134,6 +169,13 @@ export default function Page() {
         }}
         onSubmit={editingTask ? handleUpdateTask : handleAddTask}
         task={editingTask}
+      />
+
+      <DeleteConfirmDialog
+        isOpen={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={confirmDeleteTask}
+        taskTitle={taskToDelete?.title || "this task"}
       />
     </div>
   )
