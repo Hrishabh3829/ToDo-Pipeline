@@ -2,14 +2,21 @@ import * as React from "react"
 import {
   BookOpen,
   Bot,
+  CheckSquare,
   Command,
   Frame,
+  Home,
   LifeBuoy,
+  List,
   Map,
   PieChart,
+  Clock,
+  Calendar,
+  Tag,
   Send,
   Settings2,
   SquareTerminal,
+  Users,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -35,86 +42,90 @@ const data = {
   },
   navMain: [
     {
-      title: "Playground",
+      title: "Dashboard",
       url: "#",
-      icon: Frame,
+      icon: Home,
       isActive: true,
       items: [
         {
-          title: "History",
+          title: "Overview",
           url: "#",
         },
         {
-          title: "Starred",
+          title: "Analytics",
           url: "#",
         },
         {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
+          title: "Recent Tasks",
           url: "#",
         },
       ],
     },
     {
-      title: "Documentation",
+      title: "Task Management",
       url: "#",
-      icon: BookOpen,
+      icon: CheckSquare,
       items: [
         {
-          title: "Introduction",
+          title: "All Tasks",
           url: "#",
         },
         {
-          title: "Get Started",
+          title: "Completed Tasks",
           url: "#",
         },
         {
-          title: "Tutorials",
+          title: "In Progress",
           url: "#",
         },
         {
-          title: "Changelog",
+          title: "Pending Tasks",
           url: "#",
         },
       ],
     },
     {
-      title: "Settings",
+      title: "Categories",
       url: "#",
-      icon: Settings2,
+      icon: Tag,
       items: [
         {
-          title: "General",
+          title: "Work",
           url: "#",
         },
         {
-          title: "Team",
+          title: "Personal",
           url: "#",
         },
         {
-          title: "Billing",
+          title: "Education",
           url: "#",
         },
         {
-          title: "Limits",
+          title: "Health",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Schedule",
+      url: "#",
+      icon: Calendar,
+      items: [
+        {
+          title: "Today",
+          url: "#",
+        },
+        {
+          title: "Upcoming",
+          url: "#",
+        },
+        {
+          title: "Weekly View",
+          url: "#",
+        },
+        {
+          title: "Monthly Planner",
           url: "#",
         },
       ],
@@ -122,36 +133,36 @@ const data = {
   ],
   navSecondary: [
     {
-      title: "Support",
+      title: "Team Members",
       url: "#",
+      icon: Users,
+    },
+    {
+      title: "Help & Support",
+      url: "#", 
       icon: LifeBuoy,
     },
     {
-      title: "Feedback",
-      url: "#", 
-      icon: Send,
-    },
-    {
-      title: "More",
+      title: "Analytics",
       url: "#",
       icon: PieChart,
     },
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Work Projects",
       url: "#",
-      icon: Frame,
+      icon: CheckSquare,
     },
     {
-      name: "Sales & Marketing",
+      name: "Personal Goals",
       url: "#",
-      icon: PieChart,
+      icon: List,
     },
     {
-      name: "Travel",
+      name: "Team Tasks",
       url: "#",
-      icon: Map,
+      icon: Users,
     },
   ],
 }
@@ -173,8 +184,8 @@ export function AppSidebar({
                   <Command className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
+                  <span className="truncate font-medium">Task Manager</span>
+                  <span className="truncate text-xs">Dashboard</span>
                 </div>
               </a>
             </SidebarMenuButton>
