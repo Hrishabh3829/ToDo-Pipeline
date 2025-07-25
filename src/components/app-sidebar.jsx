@@ -35,10 +35,10 @@ import {
 
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: null,
-    initials: "CN", // Matches what's shown in the screenshot
+    name: "Hrishabh Gupta",
+    email: "hrishabh@domain.com",
+    avatar: "https://github.com/shadcn.png",
+    initials: "HG", 
   },
   navMain: [
     {
